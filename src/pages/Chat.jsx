@@ -39,18 +39,17 @@ const Chat = () => {
     })();
   }, [refreshConversations]);
 
-  useEffect(() => {
-    if (!activeId) {
-      setMessages([]);
-      return;
-    }
-    setLoadingMessages(true);
-    getConversation(activeId)
-      .then(({ messages }) => setMessages(messages))
-      .catch(() => setError("Failed to load conversation"))
-      .finally(() => setLoadingMessages(false));
-  }, [activeId]);
-
+ useEffect(() => {
+  if (!activeId) {
+    setMessages([]);
+    return;
+  }
+  setLoadingMessages(true);
+  getConversation(activeId)
+    .then((data) => setMessages(data.messages || []))
+    .catch(() => setError("Failed to load conversation"))
+    .finally(() => setLoadingMessages(false));
+}, [activeId]);
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
